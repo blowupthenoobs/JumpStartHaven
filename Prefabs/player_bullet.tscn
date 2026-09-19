@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://bwjw4r1jox512"]
+
+[ext_resource type="Texture2D" uid="uid://n2wfirxuxbal" path="res://Assets/Triangle.png" id="1_7hugb"]
+
+[node name="PlayerBullet" type="CharacterBody2D"]
+scale = Vector2(0.3, 0.3)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+self_modulate = Color(0, 0.627451, 0.9254902, 1)
+z_index = -5
+texture = ExtResource("1_7hugb")

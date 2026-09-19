@@ -1,0 +1,46 @@
+[gd_scene load_steps=8 format=3 uid="uid://cf2wpa7antj0g"]
+
+[ext_resource type="Texture2D" uid="uid://bcl1stx7vec22" path="res://Assets/CircleMask.png" id="1_7px2j"]
+[ext_resource type="Script" uid="uid://cx4sx0j46kxep" path="res://Scripts/PlayerCharacterScript.gd" id="2_qla6v"]
+[ext_resource type="Texture2D" uid="uid://n2wfirxuxbal" path="res://Assets/Triangle.png" id="3_qlmn3"]
+[ext_resource type="Texture2D" uid="uid://j1yahb5jf1sm" path="res://Assets/Square.png" id="3_undaa"]
+[ext_resource type="Script" uid="uid://d26d1mdgmgdwc" path="res://Scripts/BulletScript.gd" id="4_3g84q"]
+[ext_resource type="PackedScene" uid="uid://bwjw4r1jox512" path="res://Prefabs/player_bullet.tscn" id="6_qlmn3"]
+
+[sub_resource type="PackedScene" id="PackedScene_tgp8p"]
+_bundled = {
+"conn_count": 0,
+"conns": PackedInt32Array(),
+"editable_instances": [],
+"names": PackedStringArray("Sprite2D2", "self_modulate", "z_index", "scale", "texture", "script", "Sprite2D"),
+"node_count": 1,
+"node_paths": [],
+"nodes": PackedInt32Array(-1, -1, 6, 0, -1, 5, 1, 0, 2, 1, 3, 2, 4, 3, 5, 4, 0),
+"variants": [Color(1.732707e-06, 0.62751925, 0.92515653, 1), -5, Vector2(0.3, 0.3), ExtResource("3_qlmn3"), ExtResource("4_3g84q")],
+"version": 3
+}
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="." node_paths=PackedStringArray("nozzleEnd")]
+texture = ExtResource("1_7px2j")
+script = ExtResource("2_qla6v")
+initialSpinSpeed = 5.0
+spinSpeed = 5.0
+nozzleEnd = NodePath("Sprite2D/RemoteTransform2D")
+playerBullet = SubResource("PackedScene_tgp8p")
+
+[node name="Sprite2D" type="Sprite2D" parent="Sprite2D"]
+position = Vector2(0, -100)
+scale = Vector2(0.3, 0.8)
+texture = ExtResource("3_undaa")
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Sprite2D/Sprite2D"]
+position = Vector2(0, -125)
+remote_path = NodePath("../..")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.5, 0.5)
+
+[node name="PlayerBullet" parent="." instance=ExtResource("6_qlmn3")]
+position = Vector2(0, -225)
