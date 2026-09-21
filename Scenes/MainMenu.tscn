@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://d2dh8cd67rf10"]
+
+[ext_resource type="Script" uid="uid://dramjnyvjaaw0" path="res://Scripts/MainMenuScript.gd" id="1_tt5f1"]
+[ext_resource type="PackedScene" uid="uid://cf2wpa7antj0g" path="res://Scenes/MainGameScene.tscn" id="2_853f1"]
+
+[node name="MainMenu" type="Node2D"]
+script = ExtResource("1_tt5f1")
+gameScene = ExtResource("2_853f1")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Button" type="Button" parent="Camera2D"]
+offset_left = -177.0
+offset_top = -65.0
+offset_right = -81.0
+offset_bottom = -34.0
+scale = Vector2(4, 4)
+text = "Start Game"
+
+[connection signal="pressed" from="Camera2D/Button" to="." method="_on_button_pressed"]

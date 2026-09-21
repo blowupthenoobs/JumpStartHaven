@@ -1,11 +1,20 @@
-[gd_scene load_steps=2 format=3 uid="uid://bwjw4r1jox512"]
+[gd_scene load_steps=3 format=3 uid="uid://bwjw4r1jox512"]
 
 [ext_resource type="Texture2D" uid="uid://n2wfirxuxbal" path="res://Assets/Triangle.png" id="1_7hugb"]
+[ext_resource type="Script" uid="uid://d26d1mdgmgdwc" path="res://Scripts/BulletScript.gd" id="1_aehm6"]
 
 [node name="PlayerBullet" type="CharacterBody2D"]
 scale = Vector2(0.3, 0.3)
+script = ExtResource("1_aehm6")
+maxSpeed = 450.0
+accelleration = 1000.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 self_modulate = Color(0, 0.627451, 0.9254902, 1)
 z_index = -5
+rotation = 1.5707964
 texture = ExtResource("1_7hugb")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+visible = false
+polygon = PackedVector2Array(95, 0, -127, 128.21, -127, -128)

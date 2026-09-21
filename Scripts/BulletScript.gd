@@ -15,9 +15,12 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
-func setUp(spawnPoint: Vector2, direction: Vector2):
+func setUp(spawnPoint: Vector2, direction: float):
 	position = spawnPoint;
-	movementDirection = direction;
+	rotation = direction;
+	movementDirection = Vector2(cos(rotation), sin(rotation));
+	currentSpeed = maxSpeed / 3;
+	#print_debug("rotation is:", rotation, " moveDirection is: ", movementDirection);
 	pass
 
 func _physics_process(delta: float) -> void:
@@ -36,4 +39,8 @@ func alterSpeed(delta: float):
 	pass
 
 func collisionEffect(collision: KinematicCollision2D):
+	var collider = collision.get_collider();
+	if(collider is EnemyScript):
+		collider.killEnemy();
+		pass;
 	queue_free()

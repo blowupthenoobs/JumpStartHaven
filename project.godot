@@ -11,9 +11,14 @@ config_version=5
 [application]
 
 config/name="Jumpstarthaven"
-run/main_scene="res://Scenes/MainGameScene.tscn"
+run/main_scene="uid://d2dh8cd67rf10"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://Assets/icon.svg"
+
+[display]
+
+window/size/resizable=false
+window/stretch/mode="viewport"
 
 [editor_plugins]
 

@@ -1,46 +1,117 @@
-[gd_scene load_steps=8 format=3 uid="uid://cf2wpa7antj0g"]
+[gd_scene load_steps=11 format=3 uid="uid://cf2wpa7antj0g"]
 
 [ext_resource type="Texture2D" uid="uid://bcl1stx7vec22" path="res://Assets/CircleMask.png" id="1_7px2j"]
 [ext_resource type="Script" uid="uid://cx4sx0j46kxep" path="res://Scripts/PlayerCharacterScript.gd" id="2_qla6v"]
-[ext_resource type="Texture2D" uid="uid://n2wfirxuxbal" path="res://Assets/Triangle.png" id="3_qlmn3"]
 [ext_resource type="Texture2D" uid="uid://j1yahb5jf1sm" path="res://Assets/Square.png" id="3_undaa"]
-[ext_resource type="Script" uid="uid://d26d1mdgmgdwc" path="res://Scripts/BulletScript.gd" id="4_3g84q"]
+[ext_resource type="PackedScene" uid="uid://colcrfob8768i" path="res://Prefabs/Enemy.tscn" id="5_undaa"]
+[ext_resource type="Script" uid="uid://cdao6ry1np5f5" path="res://Scripts/UiManagementScript.gd" id="6_3g84q"]
 [ext_resource type="PackedScene" uid="uid://bwjw4r1jox512" path="res://Prefabs/player_bullet.tscn" id="6_qlmn3"]
 
-[sub_resource type="PackedScene" id="PackedScene_tgp8p"]
-_bundled = {
-"conn_count": 0,
-"conns": PackedInt32Array(),
-"editable_instances": [],
-"names": PackedStringArray("Sprite2D2", "self_modulate", "z_index", "scale", "texture", "script", "Sprite2D"),
-"node_count": 1,
-"node_paths": [],
-"nodes": PackedInt32Array(-1, -1, 6, 0, -1, 5, 1, 0, 2, 1, 3, 2, 4, 3, 5, 4, 0),
-"variants": [Color(1.732707e-06, 0.62751925, 0.92515653, 1), -5, Vector2(0.3, 0.3), ExtResource("3_qlmn3"), ExtResource("4_3g84q")],
-"version": 3
-}
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_undaa"]
+radius = 124.0
+height = 254.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_undaa"]
+font_size = 180
+
+[sub_resource type="LabelSettings" id="LabelSettings_qlmn3"]
+font_size = 60
+
+[sub_resource type="LabelSettings" id="LabelSettings_3g84q"]
+font_size = 100
 
 [node name="Node2D" type="Node2D"]
 
-[node name="Sprite2D" type="Sprite2D" parent="." node_paths=PackedStringArray("nozzleEnd")]
-texture = ExtResource("1_7px2j")
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." node_paths=PackedStringArray("nozzleEnd")]
+collision_layer = 3
 script = ExtResource("2_qla6v")
 initialSpinSpeed = 5.0
 spinSpeed = 5.0
-nozzleEnd = NodePath("Sprite2D/RemoteTransform2D")
-playerBullet = SubResource("PackedScene_tgp8p")
+nozzleEnd = NodePath("Sprite2D/Sprite2D/RemoteTransform2D")
+playerBullet = ExtResource("6_qlmn3")
+enemySpawnRate = 3.0
+enemyPrefab = ExtResource("5_undaa")
+enemySpawnDistance = 2200.0
 
-[node name="Sprite2D" type="Sprite2D" parent="Sprite2D"]
-position = Vector2(0, -100)
-scale = Vector2(0.3, 0.8)
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
+texture = ExtResource("1_7px2j")
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D/Sprite2D"]
+position = Vector2(100, 0)
+scale = Vector2(0.8, 0.3)
 texture = ExtResource("3_undaa")
 
-[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Sprite2D/Sprite2D"]
-position = Vector2(0, -125)
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="CharacterBody2D/Sprite2D/Sprite2D"]
+position = Vector2(125, 0)
 remote_path = NodePath("../..")
 
-[node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(0.5, 0.5)
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D/Sprite2D/Sprite2D/RemoteTransform2D"]
+visible = false
+self_modulate = Color(0.35686275, 0.35686275, 0.35686275, 0.44313726)
+scale = Vector2(0.395, 0.395)
+texture = ExtResource("1_7px2j")
 
-[node name="PlayerBullet" parent="." instance=ExtResource("6_qlmn3")]
-position = Vector2(0, -225)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+visible = false
+shape = SubResource("CapsuleShape2D_undaa")
+
+[node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("scoreDisplay", "gameOverPanel", "finalDisplay")]
+zoom = Vector2(0.3, 0.3)
+script = ExtResource("6_3g84q")
+scoreDisplay = NodePath("Label")
+gameOverPanel = NodePath("Panel")
+finalDisplay = NodePath("Panel/Label2")
+
+[node name="Panel" type="Panel" parent="Camera2D"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1000.0
+offset_top = -500.0
+offset_right = 1000.0
+offset_bottom = 500.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Camera2D/Panel"]
+layout_mode = 0
+offset_left = 650.0
+offset_right = 1426.0
+offset_bottom = 246.0
+text = "You Died"
+label_settings = SubResource("LabelSettings_undaa")
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="Camera2D/Panel"]
+layout_mode = 0
+offset_left = 715.0
+offset_top = 212.0
+offset_right = 1323.0
+offset_bottom = 295.0
+text = "Killed 10000 Enemies"
+label_settings = SubResource("LabelSettings_qlmn3")
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="Camera2D/Panel"]
+layout_mode = 0
+offset_left = 849.0
+offset_top = 754.0
+offset_right = 921.0
+offset_bottom = 785.0
+scale = Vector2(5, 5)
+text = "Restart?"
+
+[node name="Label" type="Label" parent="Camera2D"]
+offset_left = -623.0
+offset_top = -1048.0
+offset_right = 633.0
+offset_bottom = -771.0
+text = "100000000000000000000
+"
+label_settings = SubResource("LabelSettings_3g84q")
+horizontal_alignment = 1
+
+[connection signal="pressed" from="Camera2D/Panel/Button" to="Camera2D" method="_on_button_pressed"]
